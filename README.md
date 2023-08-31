@@ -1,3 +1,9 @@
+![Version](https://img.shields.io/badge/version-0.0.1-orange.svg)
+![Test](https://github.com/eminozkan/stringutils/actions/workflows/go.yml/badge.svg)
+![Go](https://img.shields.io/github/go-mod/go-version/eminozkan/stringutils)
+[![Documentation](https://godoc.org/github.com/eminozkan/stringutils?status.svg)](https://pkg.go.dev/github.com/eminozkan/stringutils)
+[![Go Report Card](https://goreportcard.com/badge/github.com/eminozkan/stringutils)](https://goreportcard.com/report/github.com/eminozkan/stringutils)
+
 # stringutils
 
 A basic stringutils package. It contains only Reverse() function.
