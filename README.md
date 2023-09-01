@@ -8,8 +8,12 @@
 
 A basic stringutils package. It contains only Reverse() function.
 
-```
+```go
 func Reverse(s string) (string, error)
+```
+
+```go
+func Replace(base string, target string, replacement string) (string, error) 
 ```
 
 ____
@@ -41,6 +45,12 @@ func main(){
 		log.Fatal(err)
 	}    
 	fmt.Println(reversed) // nakzo
+
+	replaced, err2 := stringutils.Replace("Hello world", "world", "go")
+	if err2 != nil{
+		log.Fatal(err)
+	}
+	fmt.Println(replaced) // Hello go
 }
 ```
 
@@ -56,7 +66,7 @@ ____
 
 All PR’s are welcome!
 
-1. `fork` (https://github.com/vigo/stringutils-demo/fork)
+1. `fork` (https://github.com/eminozkan/stringutils/fork)
 1. Create your `branch` (`git checkout -b my-feature`)
 1. `commit` yours (`git commit -am 'add some functionality'`)
 1. `push` your `branch` (`git push origin my-feature`)
