@@ -40,6 +40,11 @@ func TestReverse(t *testing.T) {
 		want  []string
 		err   []error
 	}{
+		"invalid utf8 strings": {
+			input: []string{"\xC0\x80", "\xF4\x90\x80\x80", "\xFE\xA1\xA1\xA1\xA1\xA1"},
+			want:  []string{"\xC0\x80", "\xF4\x90\x80\x80", "\xFE\xA1\xA1\xA1\xA1\xA1"},
+			err:   []error{stringutils.ErrInvalidUTF8, stringutils.ErrInvalidUTF8, stringutils.ErrInvalidUTF8},
+		},
 		"none Turkish letters": {
 			input: []string{"hello", "this is vigo"},
 			want:  []string{"olleh", "ogiv si siht"},
@@ -90,4 +95,52 @@ func ExampleReverse() {
 	r, _ := stringutils.Reverse("vigo")
 	fmt.Println(r)
 	// Output: ogiv
+}
+
+func TestReplace(t *testing.T) {
+	tcs := map[string]struct {
+		input []string
+		want  string
+		err   error
+	}{
+		"invalid base string": {
+			input: []string{"\xC0\x80", "test", "go"},
+			want:  "\xC0\x80",
+			err:   stringutils.ErrInvalidUTF8,
+		},
+		"invalid target string": {
+			input: []string{"test", "\xC0\x80", "go"},
+			want:  "test",
+			err:   stringutils.ErrInvalidUTF8,
+		},
+		"invalid replacement string": {
+			input: []string{"test go", "go", "\xC0\x80"},
+			want:  "test go",
+			err:   stringutils.ErrInvalidUTF8,
+		},
+		"contained substring": {
+			input: []string{"Hello World", "World", "go"},
+			want:  "Hello go",
+			err:   nil,
+		},
+		"not contained substring": {
+			input: []string{"Hello World", "go", "go"},
+			want:  "Hello World",
+			err:   stringutils.ErrInvalidSubstring,
+		},
+	}
+
+	for name, tc := range tcs {
+		t.Run(name, func(t *testing.T) {
+			got, err := stringutils.Replace(tc.input[0], tc.input[1], tc.input[2])
+			if !errors.Is(err, tc.err) {
+				t.Errorf("unexpected error, want : %v, got : %v", tc.err, err)
+			}
+
+			if got != tc.want {
+				t.Errorf("unexpected response want : %v, got : %v", tc.err, err)
+			}
+		})
+	}
+
 }
