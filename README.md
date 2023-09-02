@@ -6,7 +6,7 @@
 
 # stringutils
 
-A basic stringutils package. It contains only Reverse() function.
+A basic stringutils package. It contains only Reverse() and Replace() function.
 
 ```go
 func Reverse(s string) (string, error)

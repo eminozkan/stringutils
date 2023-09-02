@@ -119,8 +119,8 @@ func TestReplace(t *testing.T) {
 			err:   stringutils.ErrInvalidUTF8,
 		},
 		"contained substring": {
-			input: []string{"Hello World", "World", "go"},
-			want:  "Hello go",
+			input: []string{"Hello World!", "World", "go"},
+			want:  "Hello go!",
 			err:   nil,
 		},
 		"not contained substring": {
@@ -138,9 +138,26 @@ func TestReplace(t *testing.T) {
 			}
 
 			if got != tc.want {
-				t.Errorf("unexpected response want : %v, got : %v", tc.err, err)
+				t.Errorf("unexpected response want : %v, got : %v", tc.want, got)
 			}
 		})
 	}
+}
 
+var rs string
+
+func BenchmarkReplace(b *testing.B) {
+	var s string
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		s, _ = stringutils.Replace("Hello world!", "dünya", "emin")
+	}
+
+	rs = s
+}
+
+func ExampleReplace() {
+	r, _ := stringutils.Replace("Hello world!", "world", "dünya")
+	fmt.Println(r)
+	// Output: Hello dünya!
 }

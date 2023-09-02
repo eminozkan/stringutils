@@ -40,9 +40,11 @@ func Replace(base string, target string, replacement string) (string, error) {
 	targetLen := len(target)
 	baseLen := len(base)
 	for i := 0; i < baseLen; {
-		if base[i:i+targetLen] == target {
+		if i+targetLen <= baseLen && base[i:i+targetLen] == target {
 			result += replacement
 			i += targetLen
+		} else if i >= baseLen {
+			break
 		} else {
 			result += string(base[i])
 			i++
